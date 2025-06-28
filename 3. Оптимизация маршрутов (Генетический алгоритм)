@@ -1,0 +1,26 @@
+def optimize_path_genetic(path, obstacles, pop_size=50, n_gen=100):
+    """
+    Генетическая оптимизация маршрута для минимизации длины и обхода препятствий.
+    :param path: Исходный путь (A*)
+    :param obstacles: Список препятствий (x, y, z, radius)
+    :return: Оптимизированный путь
+    """
+    creator.create("FitnessMin", base.Fitness, weights=(-1.0, -1.0))  # Минимизация длины и коллизий
+    creator.create("Individual", list, fitness=creator.FitnessMin)
+
+    toolbox = base.Toolbox()
+    toolbox.register("mutate", lambda x: x + np.random.normal(0, 0.5, 3))  # Мутация
+    toolbox.register("select", tools.selTournament, tournsize=3)
+    
+    def eval_path(individual):
+        length = sum(np.linalg.norm(np.array(individual[i+1]) - np.array(individual[i])) 
+        collisions = sum(check_collision(point, obstacles) for point in individual)
+        return length, collisions
+    
+    toolbox.register("evaluate", eval_path)
+    
+    population = [creator.Individual(path) for _ in range(pop_size)]
+    algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=n_gen, verbose=False)
+    
+    best_path = tools.selBest(population, k=1)[0]
+    return best_path
