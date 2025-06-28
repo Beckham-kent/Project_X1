@@ -1,0 +1,10 @@
+# Основные импорты
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import pymap3d as pm  # Для геопространственных расчетов
+import networkx as nx  # Для работы с графами (A*)
+from deap import algorithms, base, creator, tools  # Генетический алгоритм
+import rospy  # Для интеграции с ROS/Gazebo
+from clover import srv  # Для управления квадрокоптером Clover
+from mavros_msgs.srv import CommandBool  # Для управления полетом
