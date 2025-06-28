@@ -1,0 +1,13 @@
+def simulate_flight(path):
+    """
+    Запуск симуляции в Gazebo через ROS.
+    :param path: Список точек (x, y, z)
+    """
+    rospy.init_node('drone_path_planner')
+    navigate = rospy.ServiceProxy('navigate', srv.Navigate)
+    
+    for point in path:
+        navigate(x=point[0], y=point[1], z=point[2], frame_id='map')
+        rospy.sleep(1)
+    
+    print("Миссия завершена!")
