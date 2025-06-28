@@ -1,0 +1,22 @@
+if __name__ == "__main__":
+    # 1. Загрузка карты (0 — свободно, 1 — препятствие)
+    grid = np.zeros((50, 50, 10))  # 50x50x10 м
+    grid[20:30, 10:20, 2:6] = 1  # Добавляем препятствие
+    
+    # 2. Генерация маршрута A*
+    start = (5, 5, 2)
+    goal = (40, 40, 5)
+    path = a_star_3d(grid, start, goal)
+    
+    if path:
+        # 3. Оптимизация генетическим алгоритмом
+        obstacles = [(25, 15, 4, 3)]  # (x, y, z, radius)
+        optimized_path = optimize_path_genetic(path, obstacles)
+        
+        # 4. Визуализация
+        plot_3d_path(optimized_path, obstacles)
+        
+        # 5. Запуск симуляции (если подключен ROS/Gazebo)
+        # simulate_flight(optimized_path)
+    else:
+        print("Путь не найден!")
