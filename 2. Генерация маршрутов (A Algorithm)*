@@ -1,0 +1,25 @@
+def a_star_3d(grid, start, goal):
+    """
+    Алгоритм A* для 3D-пространства (учитывает высоту).
+    :param grid: 3D-карта (0 — свободно, 1 — препятствие)
+    :param start: (x, y, z)
+    :param goal: (x, y, z)
+    :return: Оптимальный путь
+    """
+    graph = nx.grid_graph(dim=list(grid.shape))
+    
+    # Удаляем узлы с препятствиями
+    for node in list(graph.nodes):
+        x, y, z = node
+        if grid[x, y, z] == 1:
+            graph.remove_node(node)
+    
+    # Эвристика (Евклидово расстояние)
+    def heuristic(a, b):
+        return np.linalg.norm(np.array(a) - np.array(b))
+    
+    try:
+        path = nx.astar_path(graph, start, goal, heuristic=heuristic)
+        return path
+    except:
+        return None  # Если путь не найден
