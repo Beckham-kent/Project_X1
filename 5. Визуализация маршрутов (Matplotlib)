@@ -1,0 +1,19 @@
+def plot_3d_path(path, obstacles=None):
+    """
+    Визуализация 3D-маршрута.
+    """
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    
+    xs, ys, zs = zip(*path)
+    ax.plot(xs, ys, zs, 'b-', label="Маршрут")
+    
+    if obstacles:
+        for obs in obstacles:
+            ax.scatter(obs[0], obs[1], obs[2], c='r', marker='o', s=100)
+    
+    ax.set_xlabel('X (м)')
+    ax.set_ylabel('Y (м)')
+    ax.set_zlabel('Z (м)')
+    plt.legend()
+    plt.show()
